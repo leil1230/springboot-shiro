@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Login Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	<div style="width: 400px; margin: 50px auto;">
+		<form action="/login" method="post">
+			<p>用户名：</p><input type="text" name="username"/><br/>
+			<p>密 码：</p><input type="password" name="password"/><br/><br>
+			<input type="checkbox" id="rememberMe" name="rememberMe" onclick="displayResult()" value="false"/>记住我<br><br>
+			<input type="submit" value="登录">
+
+		</form>
+	</div>
+</body>
+<script>
+
+	console.log(document.getElementById("rememberMe").value);
+
+	function displayResult() {
+		let checked = document.getElementById("rememberMe").checked;
+		document.getElementById("rememberMe").value = checked;
+		let value = document.getElementById("rememberMe").value;
+		console.log(`checked: ${checked}`);
+		console.log(`rememberMe: ${value}`);
+	}
+</script>
+</html>
