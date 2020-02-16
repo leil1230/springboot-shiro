@@ -1,6 +1,8 @@
 package com.leil.config;
 
 import com.leil.filter.RoleOrFilter;
+import com.leil.session.CustomSessionManager;
+import com.leil.session.RedisSessionDAO;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.RememberMeManager;
 import org.apache.shiro.realm.Realm;
@@ -29,10 +31,13 @@ public class ShiroConfig {
     }
 
     @Bean("securityManager")
-    public DefaultWebSecurityManager webSecurityManager(Realm realm, RememberMeManager rememberMeManager) {
+    public DefaultWebSecurityManager webSecurityManager(Realm realm,
+                                                        RememberMeManager rememberMeManager,
+                                                        CustomSessionManager customSessionManager) {
         DefaultWebSecurityManager webSecurityManager = new DefaultWebSecurityManager();
         webSecurityManager.setRealm(realm);
         webSecurityManager.setRememberMeManager(rememberMeManager);
+        webSecurityManager.setSessionManager(customSessionManager);
         return webSecurityManager;
     }
 
@@ -88,6 +93,20 @@ public class ShiroConfig {
     @Bean
     public RoleOrFilter roleOrFilter() {
         return new RoleOrFilter();
+    }
+
+    // 配置redis Session
+
+    @Bean
+    public CustomSessionManager customSessionManager(RedisSessionDAO redisSessionDAO) {
+        CustomSessionManager customSessionManager = new CustomSessionManager();
+        customSessionManager.setSessionDAO(redisSessionDAO);
+        return customSessionManager;
+    }
+
+    @Bean
+    public RedisSessionDAO redisSessionDAO() {
+        return new RedisSessionDAO();
     }
 
 }
