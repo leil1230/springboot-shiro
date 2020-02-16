@@ -22,8 +22,9 @@ public class RedisConfig {
 
 
     @Bean
-    public RedisTemplate<byte[], byte[]> cacheRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<byte[], byte[]> cacheRedisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, byte[]> cacheRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, byte[]> cacheRedisTemplate = new RedisTemplate<>();
+        cacheRedisTemplate.setKeySerializer(RedisSerializer.string());
         cacheRedisTemplate.setConnectionFactory(redisConnectionFactory);
         return cacheRedisTemplate;
     }

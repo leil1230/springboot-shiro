@@ -28,6 +28,10 @@ public class ShiroConfig {
     @Bean
     public IniRealm realm() {
         IniRealm iniRealm = new IniRealm("classpath:shiro-ini/users.ini");
+        //启用身份验证缓存，即缓存AuthenticationInfo信息，默认false
+        iniRealm.setAuthenticationCachingEnabled(true);
+        //启用授权缓存，即缓存AuthorizationInfo信息，默认false
+        iniRealm.setAuthorizationCachingEnabled(true);
         return iniRealm;
     }
 

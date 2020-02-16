@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ShiroRedisCache<K, V> implements Cache<K, V> {
 
     @Autowired
-    RedisTemplate<String, byte[]> shiroRedisTemplate;
+    RedisTemplate<String, byte[]> cacheRedisTemplate;
 
     @Value("${shiro.cache.cacheKey}")
     String shiroCacheKey;
@@ -33,7 +33,7 @@ public class ShiroRedisCache<K, V> implements Cache<K, V> {
             return null;
         }
         byte[] key = this.getKey(k);
-        byte[] bytes = (byte[]) this.shiroRedisTemplate.opsForHash().get(this.shiroCacheKey, key);
+        byte[] bytes = (byte[]) this.cacheRedisTemplate.opsForHash().get(this.shiroCacheKey, key);
         V val = (V) SerializationUtils.deserialize(bytes);
         return val;
     }
@@ -45,7 +45,7 @@ public class ShiroRedisCache<K, V> implements Cache<K, V> {
         }
         byte[] key = this.getKey(k);
         byte[] bytes = SerializationUtils.serialize(v);
-        this.shiroRedisTemplate.opsForHash().put(this.shiroCacheKey, key, bytes);
+        this.cacheRedisTemplate.opsForHash().put(this.shiroCacheKey, key, bytes);
         return v;
     }
 
@@ -56,7 +56,7 @@ public class ShiroRedisCache<K, V> implements Cache<K, V> {
         }
         byte[] key = this.getKey(k);
         V v = this.get(k);
-        this.shiroRedisTemplate.opsForHash().delete(this.shiroCacheKey, key);
+        this.cacheRedisTemplate.opsForHash().delete(this.shiroCacheKey, key);
         return v;
     }
 
@@ -67,13 +67,13 @@ public class ShiroRedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public int size() {
-        String sizeStr = this.shiroRedisTemplate.opsForHash().size(this.shiroCacheKey).toString();
+        String sizeStr = this.cacheRedisTemplate.opsForHash().size(this.shiroCacheKey).toString();
         return Integer.parseInt(sizeStr);
     }
 
     @Override
     public Set<K> keys() {
-        Set<Object> keys = this.shiroRedisTemplate.opsForHash().keys(this.shiroCacheKey);
+        Set<Object> keys = this.cacheRedisTemplate.opsForHash().keys(this.shiroCacheKey);
         Set<K> kSet = keys.stream().map(key -> {
             byte[] bytes = (byte[]) key;
             K k = (K) SerializationUtils.deserialize(bytes);
@@ -84,7 +84,7 @@ public class ShiroRedisCache<K, V> implements Cache<K, V> {
 
     @Override
     public Collection<V> values() {
-        List<Object> values = this.shiroRedisTemplate.opsForHash().values(this.shiroCacheKey);
+        List<Object> values = this.cacheRedisTemplate.opsForHash().values(this.shiroCacheKey);
         Set<V> vSet = values.stream().map(val -> {
             byte[] bytes = (byte[]) val;
             V v = (V) SerializationUtils.deserialize(bytes);
