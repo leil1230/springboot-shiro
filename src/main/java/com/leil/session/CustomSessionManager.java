@@ -22,6 +22,7 @@ public class CustomSessionManager extends DefaultWebSessionManager {
             WebSessionKey webSessionKey = (WebSessionKey)sessionKey;
             request = webSessionKey.getServletRequest();
         }
+        // 将session保存到request请求中，不用每次都去redis中取session信息
         if (request != null) {
             Session session = (Session) request.getAttribute(sessionId.toString());
             if (session == null) {

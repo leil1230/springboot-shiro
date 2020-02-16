@@ -7,5 +7,8 @@ spring:
 
 # shiro配置
 shiro:
-  sessionKeyPrefix: SESSION:SHIRO_SESSION_
-  sessionExpiredTime: 600
+  session:
+    sessionKeyPrefix: SESSION:SHIRO_SESSION_
+    sessionExpiredTime: 600
+  cache:
+    cacheKey: SHIRO_CACHE

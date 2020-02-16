@@ -21,4 +21,12 @@ public class RedisConfig {
     }
 
 
+    @Bean
+    public RedisTemplate<byte[], byte[]> cacheRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<byte[], byte[]> cacheRedisTemplate = new RedisTemplate<>();
+        cacheRedisTemplate.setConnectionFactory(redisConnectionFactory);
+        return cacheRedisTemplate;
+    }
+
+
 }

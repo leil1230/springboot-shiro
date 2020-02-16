@@ -20,10 +20,10 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     @Autowired
     RedisTemplate<String, byte[]> shiroRedisTemplate;
 
-    @Value("${shiro.sessionKeyPrefix}")
+    @Value("${shiro.session.sessionKeyPrefix}")
     String shiroSessionRedisKeyPrefix;
 
-    @Value("${shiro.sessionExpiredTime}")
+    @Value("${shiro.session.sessionExpiredTime}")
     long shiroSessionExpiredTime;
 
     protected String getSessionKey(String sessionId) {
